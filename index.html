@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Forever Promise For You ❤️ | A Romantic Surprise</title>
+    <meta name="description" content="A romantic and unforgettable surprise proposal experience filled with our memories, love notes, and a question straight from the heart.">
+    <meta name="theme-color" content="#090710">
+
+    <!-- Open Graph for sharing on WhatsApp / Social Media -->
+    <meta property="og:title" content="A Special Message For You ❤️">
+    <meta property="og:description" content="I created something special just for you. Please tap to open...">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Ambient Canvas (Twinkling Stars, Floating Rose Petals, Fireflies) -->
+    <canvas id="ambientCanvas"></canvas>
+
+    <!-- Floating Atmosphere Controls -->
+    <aside class="floating-controls" aria-label="Controls">
+        <button id="musicToggleBtn" class="floating-btn" title="Toggle Romantic Piano Melody" aria-label="Toggle Romantic Music">
+            🎵
+        </button>
+        <button id="openCustomizerBtn" class="floating-btn" title="Personalize Proposal (Secret Menu)" aria-label="Customize Proposal">
+            ⚙️
+        </button>
+    </aside>
+
+    <!-- ==========================================================================
+         Intro Curtain: The Wax Sealed Secret Envelope
+         ========================================================================== -->
+    <section id="introCurtain" class="intro-curtain" aria-label="Envelope Intro">
+        <h1 class="curtain-title">For My Favorite Person...</h1>
+        <p class="curtain-subtitle">There is a secret letter waiting for <span class="val-partner-name">My Dearest Love</span></p>
+
+        <div class="envelope-wrapper">
+            <div id="proposalEnvelope" class="envelope-box" role="button" tabindex="0" aria-label="Open Love Envelope">
+                <div class="envelope-flap"></div>
+                <div class="wax-seal">
+                    <span class="wax-seal-inner">❤️</span>
+                </div>
+                <div class="envelope-stamp">✨</div>
+            </div>
+        </div>
+
+        <p class="envelope-hint">✨ Tap the wax seal to unlock our story ✨</p>
+    </section>
+
+    <!-- ==========================================================================
+         Main Proposal Experience
+         ========================================================================== -->
+    <main id="mainContent" class="main-content hidden">
+
+        <!-- Hero Welcome Header -->
+        <header class="hero-section">
+            <div class="hero-pill">
+                <span>🌟 Our Unforgettable Journey</span>
+            </div>
+            <h2 class="hero-title">
+                To My Soulmate, <span class="val-partner-name">My Dearest Love</span>
+            </h2>
+            <p class="hero-subtitle">
+                Out of eight billion people in this vast world, my heart found its forever home in you.
+            </p>
+
+            <div class="hero-image-frame">
+                <img src="assets/hero-starlight.jpg" alt="Romantic couple beneath a breathtaking starlit night sky" id="heroBannerImg">
+                <div class="hero-image-overlay">
+                    <p class="hero-image-quote">"If I had a flower for every time I thought of you, I could walk through my garden forever."</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chapter 1: Live Love Counter -->
+        <section id="chapterStory" class="counter-section">
+            <div class="section-header">
+                <span class="section-tag">Chapter I • Time Together</span>
+                <h3 class="section-title">Writing Our Fairytale</h3>
+            </div>
+
+            <div class="timer-glass-card">
+                <p style="color: var(--text-gold); font-size: 1.15rem; margin-bottom: 24px; font-style: italic;">
+                    Falling more deeply in love with you with every single passing second:
+                </p>
+
+                <div class="timer-digits-grid">
+                    <div class="timer-box">
+                        <span id="countDays" class="timer-number">00</span>
+                        <span class="timer-label">Days</span>
+                    </div>
+                    <div class="timer-box">
+                        <span id="countHours" class="timer-number">00</span>
+                        <span class="timer-label">Hours</span>
+                    </div>
+                    <div class="timer-box">
+                        <span id="countMinutes" class="timer-number">00</span>
+                        <span class="timer-label">Minutes</span>
+                    </div>
+                    <div class="timer-box">
+                        <span id="countSeconds" class="timer-number">00</span>
+                        <span class="timer-label">Seconds</span>
+                    </div>
+                </div>
+
+                <div class="timer-substats">
+                    <div class="substat-item">
+                        <span class="substat-icon">💓</span>
+                        <span>Over <strong id="statHeartbeats" class="substat-value">0</strong> heartbeats dedicated to loving you</span>
+                    </div>
+                    <div class="substat-item">
+                        <span class="substat-icon">✨</span>
+                        <span>Over <strong id="statSmiles" class="substat-value">0</strong> smiles inspired by your presence</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 2: Our Cherished Memories (Polaroids) -->
+        <section class="gallery-section">
+            <div class="section-header">
+                <span class="section-tag">Chapter II • Our Story in Pictures</span>
+                <h3 class="section-title">Moments Frozen In Time</h3>
+            </div>
+
+            <div id="polaroidGallery" class="polaroid-gallery-grid">
+                <!-- Dynamically populated polaroids -->
+            </div>
+        </section>
+
+        <!-- Chapter 3: Interactive Reasons Jar -->
+        <section class="reasons-section">
+            <div class="section-header">
+                <span class="section-tag">Chapter III • Infinite Love</span>
+                <h3 class="section-title">Why My Heart Chose You</h3>
+            </div>
+
+            <div class="jar-interactive-container">
+                <div class="jar-icon-wrapper">
+                    🏺
+                </div>
+
+                <div class="reason-card">
+                    <p id="reasonCardText" class="reason-text">
+                        "The way your eyes sparkle when you talk about things you love."
+                    </p>
+                    <span id="reasonCounter" class="reason-counter">Reason #1</span>
+                </div>
+
+                <div class="reason-controls">
+                    <button id="btnPrevReason" class="btn-secondary" aria-label="Previous Reason">← Previous</button>
+                    <button id="btnNextReason" class="btn-primary-heart" aria-label="Next Reason">
+                        <span>Pull A Love Note</span> 💌
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 4: Handcrafted Love Letter -->
+        <section class="letter-section">
+            <div class="section-header">
+                <span class="section-tag">Chapter IV • From My Deepest Soul</span>
+                <h3 class="section-title">A Letter Written In Starlight</h3>
+            </div>
+
+            <article class="parchment-letter">
+                <div class="parchment-corner corner-tl"></div>
+                <div class="parchment-corner corner-tr"></div>
+                <div class="parchment-corner corner-bl"></div>
+                <div class="parchment-corner corner-br"></div>
+
+                <div class="letter-header">
+                    <h4 id="letterSalutationText" class="letter-salutation">To My Dearest Love,</h4>
+                </div>
+
+                <div id="letterBodyText" class="letter-body">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div class="letter-signoff">
+                    <span class="letter-closing">Forever & unconditionally yours,</span>
+                    <span class="letter-signature val-proposer-name">Yours Forever</span>
+                </div>
+            </article>
+        </section>
+
+        <!-- Chapter 5: THE GRAND LOVE PROPOSAL (The Main Event!) -->
+        <section class="proposal-climax-section">
+            <div class="section-header">
+                <span class="section-tag">Chapter V • A Confession of Love</span>
+                <h3 class="section-title">Straight From My Heart</h3>
+            </div>
+
+            <div class="proposal-stage-card">
+                <div class="proposal-sparkle-aura"></div>
+
+                <div class="rose-showcase">
+                    <img src="assets/eternal-rose.jpg" alt="Enchanted blooming red rose in crystal dome with fairy lights" id="proposalRoseImg">
+                </div>
+
+                <h3 id="proposalQuestionText" class="proposal-question-title">
+                    I Love You... Will you be mine and be my girlfriend? ❤️
+                </h3>
+
+                <p id="proposalSubtitleText" class="proposal-subtitle">
+                    Every moment with you is magic. I don't want anyone else—my heart belongs only to you.
+                </p>
+
+                <!-- Interactive Buttons Area with Playful Runaway No -->
+                <div id="proposalInteractiveArea" class="proposal-interactive-area">
+                    <button id="btnProposalYes" class="btn-proposal-yes" aria-label="Say Yes to Love Proposal">
+                        <span>YES! I LOVE YOU TOO!</span> ❤️🥰
+                    </button>
+                    <button id="btnProposalNo" class="btn-proposal-no" aria-label="Playful No Button">
+                        No 🙈
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         Full Screen Celebration Overlay (When YES is clicked!)
+         ========================================================================== -->
+    <div id="celebrationOverlay" class="celebration-overlay hidden" role="dialog" aria-modal="true" aria-label="Proposal Accepted Celebration">
+        <canvas id="celebrationCanvas"></canvas>
+
+        <div class="celebration-box">
+            <span class="celebration-badge">💖</span>
+            <h2 class="celebration-heading">SHE SAID YES! ❤️</h2>
+            <p class="celebration-sub">
+                Our love story officially begins today! We're together forever and always 🥰✨
+            </p>
+
+            <div class="certificate-keepsake">
+                <div class="cert-title">Official Certificate of True Love</div>
+                <div id="certNames" class="cert-names">Proposer & Partner</div>
+                <div id="certDate" class="cert-date">October 26, 2026</div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px; font-style: italic;">
+                    "Two souls, one destiny. Bonded by endless love, laughter, and true companionship."
+                </p>
+            </div>
+
+            <div class="celebration-actions">
+                <button id="btnShareWhatsApp" class="btn-whatsapp">
+                    <span>Share The Joy on WhatsApp</span> 📲
+                </button>
+                <button id="btnPrintCert" class="btn-print">
+                    <span>Print Keepsake</span> 🖨️
+                </button>
+                <button id="btnCloseCelebration" class="btn-secondary">
+                    <span>View Our Story Again</span> 💖
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         Polaroid Lightbox Modal
+         ========================================================================== -->
+    <div id="lightboxModal" class="lightbox-modal" role="dialog" aria-label="Photo View">
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close photo preview">✕</button>
+            <img id="lightboxImg" src="" alt="Enlarged romantic memory">
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle">Memory Title</h3>
+                <p id="lightboxCaption">Date and description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         Secret Customizer / Personalization Modal (Shift + E or Cog Button)
+         ========================================================================== -->
+    <div id="customizerModal" class="customizer-modal" role="dialog" aria-label="Proposal Customizer">
+        <div class="customizer-box">
+            <div class="customizer-header">
+                <h3>✨ Personalize Your Surprise</h3>
+                <button id="closeCustomizerBtn" class="floating-btn" style="width:36px; height:36px;" aria-label="Close settings">✕</button>
+            </div>
+
+            <div class="customizer-body">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Customize every detail of this website to match your real story. Changes are saved automatically on your browser or can be copied as a shareable link!
+                </p>
+
+                <div class="form-group">
+                    <label for="inputPartnerName">Her Name / Pet Name</label>
+                    <input type="text" id="inputPartnerName" class="form-input" placeholder="e.g. Maya, Princess, My Love">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputProposerName">Your Name</label>
+                    <input type="text" id="inputProposerName" class="form-input" placeholder="e.g. Alex, Yours Forever">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAnniversaryDate">The Date You First Met / Anniversary</label>
+                    <input type="datetime-local" id="inputAnniversaryDate" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputQuestion">Proposal Question</label>
+                    <input type="text" id="inputQuestion" class="form-input" placeholder="Will you make me the happiest person in the universe and marry me?">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSubtitle">Proposal Subtitle</label>
+                    <input type="text" id="inputSubtitle" class="form-input" placeholder="A romantic thought or sweet promise">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputLetter">Your Love Letter to Her</label>
+                    <textarea id="inputLetter" class="form-textarea" placeholder="Write from your heart..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputReasons">Reasons Why You Love Her (One per line)</label>
+                    <textarea id="inputReasons" class="form-textarea" placeholder="Reason 1&#10;Reason 2&#10;Reason 3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="customPhotoInput">Add A Real Photo Of You Two 📸</label>
+                    <input type="file" id="customPhotoInput" class="form-input" accept="image/*">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Will appear instantly in your Polaroid Wall!</span>
+                </div>
+            </div>
+
+            <div class="customizer-footer">
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button id="copyShareLinkBtn" class="btn-secondary" title="Creates a link containing all your custom text and settings to send directly to her!">
+                        🔗 Copy Secret Surprise Link
+                    </button>
+                    <button id="hideEditorBtn" class="btn-secondary" title="Hides the settings cog icon so only the romantic website is visible">
+                        🔒 Surprise Mode
+                    </button>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button id="resetCustomizerBtn" class="btn-secondary">Reset</button>
+                    <button id="saveCustomizerBtn" class="btn-primary-heart">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="audio.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

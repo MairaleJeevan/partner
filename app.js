@@ -472,7 +472,7 @@ function createFloatingHeartAtElement(el) {
     }
 }
 
-// Envelope Opening Experience
+// Envelope Opening Experience (Touch & Click optimized for mobile)
 function initEnvelopeExperience() {
     const envelope = document.getElementById("proposalEnvelope");
     const introCurtain = document.getElementById("introCurtain");
@@ -481,11 +481,14 @@ function initEnvelopeExperience() {
 
     if (!envelope) return;
 
-    envelope.addEventListener("click", () => {
-        if (envelope.classList.contains("opened")) return;
+    let hasOpened = false;
+    function openCurtain() {
+        if (hasOpened) return;
+        hasOpened = true;
         envelope.classList.add("opened");
 
         if (window.romanticAudio) {
+            window.romanticAudio.init();
             window.romanticAudio.startMelody();
             if (musicBtn) musicBtn.classList.add("playing");
         }
@@ -504,12 +507,18 @@ function initEnvelopeExperience() {
                 if (target) {
                     target.scrollIntoView({ behavior: "smooth" });
                 }
-            }, 500);
-        }, 1100);
+            }, 400);
+        }, 900);
+    }
+
+    envelope.addEventListener("click", openCurtain);
+    envelope.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        openCurtain();
     });
 }
 
-// Playful "No" Button Mechanics (Runaway from cursor proximity)
+// Playful "No" Button Mechanics (Runaway from cursor proximity & mobile touch evasion)
 function initProposalButtons() {
     const btnYes = document.getElementById("btnProposalYes");
     const btnNo = document.getElementById("btnProposalNo");
@@ -531,12 +540,66 @@ function initProposalButtons() {
 
     let lastFleeTime = 0;
 
+    function fleeRandomly() {
+        const areaRect = proposalArea.getBoundingClientRect();
+        const yesRect = btnYes.getBoundingClientRect();
+        const noRect = btnNo.getBoundingClientRect();
+
+        const padding = 15;
+        const maxX = Math.max(10, areaRect.width - noRect.width - padding);
+        const maxY = Math.max(10, areaRect.height - noRect.height - padding);
+
+        const yesCenterX = (yesRect.left - areaRect.left) + yesRect.width / 2;
+        const yesCenterY = (yesRect.top - areaRect.top) + yesRect.height / 2;
+
+        let newX = padding, newY = padding;
+        let attempts = 0;
+
+        do {
+            newX = Math.floor(Math.random() * maxX);
+            newY = Math.floor(Math.random() * maxY);
+            attempts++;
+            const distToYes = Math.hypot(newX + noRect.width / 2 - yesCenterX, newY + noRect.height / 2 - yesCenterY);
+            if (distToYes > 140 || attempts > 15) break;
+        } while (attempts < 15);
+
+        applyFleePosition(newX, newY);
+    }
+
+    function applyFleePosition(newX, newY) {
+        runawayCount++;
+        const areaRect = proposalArea.getBoundingClientRect();
+        const noRect = btnNo.getBoundingClientRect();
+        const padding = 15;
+        const maxX = Math.max(10, areaRect.width - noRect.width - padding);
+        const maxY = Math.max(10, areaRect.height - noRect.height - padding);
+
+        const finalX = Math.max(padding, Math.min(maxX, newX));
+        const finalY = Math.max(padding, Math.min(maxY, newY));
+
+        btnNo.style.position = "absolute";
+        btnNo.style.left = `${finalX}px`;
+        btnNo.style.top = `${finalY}px`;
+        btnNo.style.zIndex = "10";
+
+        // Cycle through playful phrases
+        const phrase = wittyPhrases[runawayCount % wittyPhrases.length];
+        btnNo.textContent = phrase;
+
+        // Make YES button grow bigger & glow more!
+        const scale = Math.min(1.6, 1 + runawayCount * 0.05);
+        btnYes.style.transform = `scale(${scale})`;
+        btnYes.style.boxShadow = `0 0 ${25 + runawayCount * 5}px rgba(255, 75, 114, 0.95)`;
+
+        if (window.romanticAudio) window.romanticAudio.playKissChime();
+        createFloatingHeartAtElement(btnNo);
+    }
+
     function fleeFromCursor(cursorX, cursorY) {
         const now = Date.now();
-        if (now - lastFleeTime < 130) return; // smooth pacing
+        if (now - lastFleeTime < 110) return; // smooth pacing
         lastFleeTime = now;
 
-        runawayCount++;
         const areaRect = proposalArea.getBoundingClientRect();
         const noRect = btnNo.getBoundingClientRect();
         const yesRect = btnYes.getBoundingClientRect();
@@ -551,7 +614,7 @@ function initProposalButtons() {
         dx /= dist;
         dy /= dist;
 
-        const padding = 20;
+        const padding = 15;
         const maxX = Math.max(10, areaRect.width - noRect.width - padding);
         const maxY = Math.max(10, areaRect.height - noRect.height - padding);
 
@@ -564,45 +627,30 @@ function initProposalButtons() {
             : (noRect.top - areaRect.top);
 
         // Push forward in the fleeing direction
-        const pushDistance = 150 + Math.random() * 40;
+        const pushDistance = 140 + Math.random() * 40;
         let newX = currentLeft + dx * pushDistance;
         let newY = currentTop + dy * pushDistance;
 
-        // If pushing out of container bounds, loop across to open space
+        // If pushing out of bounds, wrap across to open space
         if (newX < padding || newX > maxX) {
-            newX = newX < padding ? maxX - 30 : padding + 30;
+            newX = newX < padding ? maxX - 25 : padding + 25;
         }
         if (newY < padding || newY > maxY) {
-            newY = newY < padding ? maxY - 30 : padding + 30;
+            newY = newY < padding ? maxY - 25 : padding + 25;
         }
 
         // Avoid overlapping with btnYes
         const yesCenterX = (yesRect.left - areaRect.left) + yesRect.width / 2;
         const yesCenterY = (yesRect.top - areaRect.top) + yesRect.height / 2;
         const distToYes = Math.hypot(newX + noRect.width / 2 - yesCenterX, newY + noRect.height / 2 - yesCenterY);
-        if (distToYes < 170) {
-            newX = newX > yesCenterX ? Math.min(maxX, yesCenterX + 160) : Math.max(padding, yesCenterX - 160);
+        if (distToYes < 150) {
+            newX = newX > yesCenterX ? Math.min(maxX, yesCenterX + 150) : Math.max(padding, yesCenterX - 150);
         }
 
-        btnNo.style.position = "absolute";
-        btnNo.style.left = `${Math.max(padding, Math.min(maxX, newX))}px`;
-        btnNo.style.top = `${Math.max(padding, Math.min(maxY, newY))}px`;
-        btnNo.style.zIndex = "10";
-
-        // Change text playfully
-        const phrase = wittyPhrases[runawayCount % wittyPhrases.length];
-        btnNo.textContent = phrase;
-
-        // Make YES button grow bigger & glow more!
-        const scale = Math.min(1.7, 1 + runawayCount * 0.06);
-        btnYes.style.transform = `scale(${scale})`;
-        btnYes.style.boxShadow = `0 0 ${25 + runawayCount * 6}px rgba(255, 75, 114, 0.95)`;
-
-        if (window.romanticAudio) window.romanticAudio.playKissChime();
-        createFloatingHeartAtElement(btnNo);
+        applyFleePosition(newX, newY);
     }
 
-    // Proximity evasion on cursor movement
+    // Proximity evasion on cursor movement (Desktop)
     window.addEventListener("mousemove", (e) => {
         const noRect = btnNo.getBoundingClientRect();
         const noCenterX = noRect.left + noRect.width / 2;
@@ -614,7 +662,8 @@ function initProposalButtons() {
         }
     });
 
-    window.addEventListener("touchmove", (e) => {
+    // Mobile touch interaction: touch anywhere near No button causes it to dart away
+    proposalArea.addEventListener("touchstart", (e) => {
         if (e.touches && e.touches[0]) {
             const touch = e.touches[0];
             const noRect = btnNo.getBoundingClientRect();
@@ -622,29 +671,33 @@ function initProposalButtons() {
             const noCenterY = noRect.top + noRect.height / 2;
             const distance = Math.hypot(touch.clientX - noCenterX, touch.clientY - noCenterY);
             if (distance < 120) {
-                fleeFromCursor(touch.clientX, touch.clientY);
+                fleeRandomly();
             }
         }
     }, { passive: true });
 
-    // Direct hover or touch triggers
+    // Direct touchstart on No button on mobile (instantly flees before click can trigger!)
+    btnNo.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fleeRandomly();
+    }, { passive: false });
+
     btnNo.addEventListener("mouseenter", (e) => {
         fleeFromCursor(e.clientX, e.clientY);
     });
 
-    btnNo.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        const touch = e.touches[0] || { clientX: 0, clientY: 0 };
-        fleeFromCursor(touch.clientX, touch.clientY);
-    }, { passive: false });
-
     btnNo.addEventListener("click", (e) => {
         e.preventDefault();
-        fleeFromCursor(e.clientX, e.clientY);
+        fleeRandomly();
     });
 
     // YES Button Click -> The Grand Celebration!
     btnYes.addEventListener("click", () => {
+        triggerGrandCelebration();
+    });
+    btnYes.addEventListener("touchend", (e) => {
+        e.preventDefault();
         triggerGrandCelebration();
     });
 }
